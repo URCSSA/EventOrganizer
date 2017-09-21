@@ -6,8 +6,17 @@ import java.util.List;
  * A table at the event
  */
 public class ParticipantGroup {
+    private String name;
     private int capacity;
     private List<Integer> participants;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public int getCapacity() {
         return capacity;
@@ -25,11 +34,18 @@ public class ParticipantGroup {
         this.participants = participants;
     }
 
+    public boolean atCapacity() {
+        return ! (participants.size() < capacity);
+    }
+
     /**
      * Adds participant to the table
      * @param participant
      */
-    public void addParticipant(Participant participant) {
-
+    public int addParticipant(Participant participant) {
+        if (!atCapacity()) {
+            participants.add(participant.getParticipantNumber());
+        }
+        return participants.size();
     }
 }
