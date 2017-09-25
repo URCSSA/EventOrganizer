@@ -8,6 +8,16 @@ public class Participant {
     private int participantNumber;//1 - max number
     private int groupNumber;//1 - numOfTable
 
+    public boolean isSpectator; //a spectator is someone who won't be participating in games
+
+    public boolean isSpectator() {
+        return isSpectator;
+    }
+
+    public void setSpectator(boolean spectator) {
+        isSpectator = spectator;
+    }
+
     public String getFirstName() {
         return firstName;
     }
