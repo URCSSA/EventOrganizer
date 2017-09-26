@@ -4,6 +4,7 @@ import com.urcssa.Event.Manager;
 import com.urcssa.Event.EventImpl.MidAutumnCssaEventImpl;
 import com.urcssa.Event.ManagerImpl.ActivityManager;
 
+
 public class Main {
 
     public static void main(String[] args) {
