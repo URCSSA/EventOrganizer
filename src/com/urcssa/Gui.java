@@ -1,6 +1,6 @@
 
 /**
- * Write a description of class StegoDisplay here.
+ * This class constructs a window for a event.
  * 
  * @author (Nicholas Wan) 
  * @version (09/26/2017)
