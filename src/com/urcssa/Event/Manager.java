@@ -1,7 +1,7 @@
 package com.urcssa.Event;
 
-
-import org.apache.log4j.Logger;
+//Comment out to test GUI
+//import org.apache.log4j.Logger;
 
 import java.util.Scanner;
 
@@ -15,7 +15,7 @@ public class Manager {
     protected static final int SPECTATOR = -1;
 
     CssaEvent event; //the event this manager is managing
-    Logger log;
+//    Logger log;
 
     public Manager() {
 //        this.log = Logger.getLogger(Manager.class);
