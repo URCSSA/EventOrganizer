@@ -10,6 +10,10 @@ public class ParticipantGroup {
     private int capacity;
     private List<Integer> participants;
 
+    public ParticipantGroup(int capacity) {
+        this.capacity = capacity;
+    }
+
     public String getName() {
         return name;
     }

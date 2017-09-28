@@ -10,6 +10,18 @@ public class MidAutumnEventManager extends EventManager {
 
 //    public manageWindow;
 
+    public CssaEvent startEvent(int numGroups, int peoplePerGroup) {
+        MidAutumnCssaEventImpl midAutumnCssaEvent = new MidAutumnCssaEventImpl();
+
+        midAutumnCssaEvent.setCapacityGroups(numGroups);
+        for(int i = 0; i < midAutumnCssaEvent.getCapacityGroups(); i++) {
+            midAutumnCssaEvent.addParticipantGroup(new ParticipantGroup(peoplePerGroup));
+        }
+
+        return midAutumnCssaEvent;
+    }
+
+    //TODO: delete when startEvent(int, int) is done
     public CssaEvent startEvent(CssaEvent event) {
         if (event instanceof MidAutumnCssaEventImpl) {
 //            log.info("Starting midAutumn event");
@@ -19,7 +31,7 @@ public class MidAutumnEventManager extends EventManager {
             midAutumnCssaEvent.setCapacityGroups(askForCapGroups()); //remember how many fully participating tables there are
 
             for(int i = 0; i < midAutumnCssaEvent.getCapacityGroups(); i++) {
-                midAutumnCssaEvent.addParticipantGroup(new ParticipantGroup());
+                midAutumnCssaEvent.addParticipantGroup(new ParticipantGroup(0));
             }
 
             //All "tables" are set. Ready to admit participants!
