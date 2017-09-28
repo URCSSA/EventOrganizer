@@ -11,17 +11,17 @@ import java.util.Scanner;
  *
  * A generic manager manages an event. The event knows nothing about its manager.
  */
-public class Manager {
+public class EventManager {
     protected static final int SPECTATOR = -1;
 
     CssaEvent event; //the event this manager is managing
 //    Logger log;
 
-    public Manager() {
-//        this.log = Logger.getLogger(Manager.class);
+    public EventManager() {
+//        this.log = Logger.getLogger(EventManager.class);
     }
 
-    public Manager(CssaEvent event) {
+    public EventManager(CssaEvent event) {
         this.event = event;
     }
 

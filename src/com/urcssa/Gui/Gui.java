@@ -1,3 +1,4 @@
+package com.urcssa.Gui;
 
 /**
  * This class constructs a window for a event.

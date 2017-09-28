@@ -2,11 +2,13 @@ package com.urcssa.Event.ManagerImpl;
 
 import com.urcssa.Event.CssaEvent;
 import com.urcssa.Event.EventImpl.MidAutumnCssaEventImpl;
-import com.urcssa.Event.Manager;
+import com.urcssa.Event.EventManager;
 import com.urcssa.People.Participant;
 import com.urcssa.People.ParticipantGroup;
 
-public class ActivityManager extends Manager {
+public class MidAutumnEventManager extends EventManager {
+
+//    public manageWindow;
 
     public CssaEvent startEvent(CssaEvent event) {
         if (event instanceof MidAutumnCssaEventImpl) {
@@ -29,6 +31,15 @@ public class ActivityManager extends Manager {
         }
         System.out.println("exiting");
 
+        return null;
+    }
+
+    public void saveEvent(CssaEvent event) {
+
+    }
+
+    //TODO change parameter to take EventData file
+    public CssaEvent loadEvent() {
         return null;
     }
 
