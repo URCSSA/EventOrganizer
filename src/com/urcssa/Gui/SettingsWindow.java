@@ -1,6 +1,16 @@
 package com.urcssa.Gui;
 
+import javax.swing.*;
+
 public class SettingsWindow {
+    private JFrame myFrame;
+    private JPanel myPanel;
+    private JLabel numOfGroupLabel;
+    private JLabel groupCapacityLabel;
+    private JTextField numOfGroupField;
+    private JTextField groupCapacityField;
+    private JButton submitButton;
+
     public SettingsWindow(){
 
     }
@@ -13,7 +23,7 @@ public class SettingsWindow {
         return 0;
     }
 
-    public static void main(String[] args){
-
-    }
+//    public static void main(String[] args){
+//
+//    }
 }
