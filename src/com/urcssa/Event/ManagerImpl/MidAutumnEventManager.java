@@ -22,29 +22,29 @@ public class MidAutumnEventManager extends EventManager {
     }
 
     //TODO: delete when startEvent(int, int) is done
-    public CssaEvent startEvent(CssaEvent event) {
-        if (event instanceof MidAutumnCssaEventImpl) {
-//            log.info("Starting midAutumn event");
-            System.out.println("Starting midAutumn event");
-            MidAutumnCssaEventImpl midAutumnCssaEvent = (MidAutumnCssaEventImpl) event;
-
-            midAutumnCssaEvent.setCapacityGroups(askForCapGroups()); //remember how many fully participating tables there are
-
-            for(int i = 0; i < midAutumnCssaEvent.getCapacityGroups(); i++) {
-                midAutumnCssaEvent.addParticipantGroup(new ParticipantGroup(0));
-            }
-
-            //All "tables" are set. Ready to admit participants!
-
-            while (takeBooleanInput("Continuing adding participant?")) {
-                midAutumnCssaEvent.addParticipant(askForParticipantInfo());
-            }
-
-        }
-        System.out.println("exiting");
-
-        return null;
-    }
+//    public CssaEvent startEvent(CssaEvent event) {
+//        if (event instanceof MidAutumnCssaEventImpl) {
+////            log.info("Starting midAutumn event");
+//            System.out.println("Starting midAutumn event");
+//            MidAutumnCssaEventImpl midAutumnCssaEvent = (MidAutumnCssaEventImpl) event;
+//
+//            midAutumnCssaEvent.setCapacityGroups(askForCapGroups()); //remember how many fully participating tables there are
+//
+//            for(int i = 0; i < midAutumnCssaEvent.getCapacityGroups(); i++) {
+//                midAutumnCssaEvent.addParticipantGroup(new ParticipantGroup(0));
+//            }
+//
+//            //All "tables" are set. Ready to admit participants!
+//
+//            while (takeBooleanInput("Continuing adding participant?")) {
+//                midAutumnCssaEvent.addParticipant(askForParticipantInfo());
+//            }
+//
+//        }
+//        System.out.println("exiting");
+//
+//        return null;
+//    }
 
     public void saveEvent(CssaEvent event) {
 

@@ -32,4 +32,5 @@ public class GUIManager {
     public static void main(String[] args){
         new GUIManager();
     }
+
 }
