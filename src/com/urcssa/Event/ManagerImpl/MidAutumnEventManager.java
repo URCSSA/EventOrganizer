@@ -21,7 +21,6 @@
 //        return midAutumnCssaEvent;
 //    }
 //
-//    //TODO: delete when startEvent(int, int) is done
 ////    public CssaEvent startEvent(CssaEvent event) {
 ////        if (event instanceof MidAutumnCssaEventImpl) {
 //////            log.info("Starting midAutumn event");
@@ -50,7 +49,6 @@
 //
 //    }
 //
-//    //TODO change parameter to take EventData file
 //    public CssaEvent loadEvent() {
 //        return null;
 //    }
@@ -82,7 +80,6 @@
 //    }
 //
 //    public Participant selectParticipant() {
-//        //TODO: need impl
 //        return null;
 //    }
 //
@@ -108,7 +105,6 @@
 //     * @return
 //     */
 //    public int askForCapGroups() {
-//        //TODO: needs impl
 //        int answer = 0;
 //
 //        String message = "Max number of groups is: " + answer;
@@ -123,7 +119,6 @@
 //     * @return
 //     */
 //    private int assignGroupNumber() {
-//        //TODO need impl
 //        return 0;
 //    }
 //
@@ -134,7 +129,6 @@
 //     * @return
 //     */
 //    private int assignParticipantNumber() {
-//        //TODO need impl
 //        return 0;
 //    }
 //}

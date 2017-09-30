@@ -58,10 +58,16 @@ public class MidAutumnCssaEventImpl extends CssaEvent {
         return new Participant();
     }
 
-    public Participant addParticipant(Participant participant) {
+    public int addParticipant(Participant participant) {
         participants.add(participant);
         numParticipants++;
         participant.setParticipantNumber(numParticipants);
+
+//        Check if all groups are full
+        if(numParticipants>numOfGroups*groupCapacity){
+            participant.setGroupNumber(-1);
+            return -1;
+        }
 
 //        Check if we need to construct a new group
         if((participantGroups.size() == 0)||(participantGroups.get(participantGroups.size()-1).atCapacity())){
@@ -71,8 +77,9 @@ public class MidAutumnCssaEventImpl extends CssaEvent {
         }else{
             participantGroups.get(participantGroups.size()-1).addParticipant(participant);
         }
+        participant.setGroupNumber(participantGroups.size());
 
-        return participant;
+        return participant.getGroupNumber();
     }
 
     public ParticipantGroup addParticipantGroup(ParticipantGroup participantGroup) {

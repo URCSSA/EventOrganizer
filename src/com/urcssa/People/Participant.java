@@ -4,6 +4,7 @@ public class Participant {
     private String firstName;
     private String lastName;
     private int gradYear;
+    private String words;
 
     private int participantNumber;//1 - max number
     private int groupNumber;//1 - numOfTable
@@ -57,4 +58,8 @@ public class Participant {
     public void setGroupNumber(int groupNumber) {
         this.groupNumber = groupNumber;
     }
+
+    public void setWords(String s){ this.words = s;}
+
+    public String getWords(){return words;}
 }

@@ -102,6 +102,7 @@ public class SignInWindow{
             @Override
             public void actionPerformed(ActionEvent e) {
                 clear();
+                informationArea.setText("");
             }
         });
 //        clearButton.setMaximumSize(clearButton.getSize());
@@ -139,6 +140,7 @@ public class SignInWindow{
 	}
 
     public void addNewMember(){
+	    informationArea.setText("");
         mainWindow.addParticipant(firstNameField.getText(), lastNameField.getText(),
                 (int)classBox.getSelectedItem(), tellUsArea.getText(), !(inspectorBox.isSelected()));
         mainWindow.update();
@@ -149,10 +151,15 @@ public class SignInWindow{
         firstNameField.setText("");
         lastNameField.setText("");
         tellUsArea.setText("");
+//        informationArea.setText("");
     }
 
-    public void printTable(){
+    public void setInformationArea(String groupNum){
+        informationArea.setText("Please have a seat a table " + groupNum);
+    }
 
+    public void allTableFull(){
+        informationArea.setText("All seats are currently occupied, please have a seat in the back.");
     }
 
 }
