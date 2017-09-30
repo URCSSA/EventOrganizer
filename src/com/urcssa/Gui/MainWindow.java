@@ -1,7 +1,7 @@
 package com.urcssa.Gui;
 
 import com.urcssa.Event.EventImpl.MidAutumnCssaEventImpl;
-import com.urcssa.Event.ManagerImpl.MidAutumnEventManager;
+//import com.urcssa.Event.ManagerImpl.MidAutumnEventManager;
 import com.urcssa.GUIManager;
 import com.urcssa.People.Participant;
 
@@ -32,7 +32,8 @@ public class MainWindow {
     String eventTitle;
     int numOfGroups;
     int groupCapacity;
-    private MidAutumnEventManager midAutumnEventManager;
+//    private MidAutumnEventManager midAutumnEventManager;
+    private MidAutumnCssaEventImpl midAutumnCssaEvent;
 
     public MainWindow(GUIManager theManager, String theEventTitle){
 //        Construct data
@@ -40,6 +41,7 @@ public class MainWindow {
         eventTitle = theEventTitle;
         numOfGroups = manager.numOfGroups;
         groupCapacity = manager.groupsCapacity;
+        midAutumnCssaEvent = new MidAutumnCssaEventImpl();
 
 //        construct the window (GUI Part)
 //        construct the title panel
@@ -131,7 +133,6 @@ public class MainWindow {
         newParticipant.setGradYear(classLevel);
         newParticipant.setLastName(lastName);
         newParticipant.isSpectator = isInspector;
-
 
     }
 
