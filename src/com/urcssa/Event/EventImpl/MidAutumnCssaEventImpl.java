@@ -4,13 +4,23 @@ import com.urcssa.Event.CssaEvent;
 import com.urcssa.People.Participant;
 import com.urcssa.People.ParticipantGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MidAutumnCssaEventImpl extends CssaEvent {
     private List<Participant> participants;
     private List<ParticipantGroup> participantGroups;
-    private int capacityGroups; //there can only be so many tables
+    private int groupCapacity;
+    private int numOfGroups; //there can only be so many tables
     private int numParticipants; //numParticipants instead of capacity because there is no technical limit on num of people
+
+    public MidAutumnCssaEventImpl(int _theGroupCapacity, int _theCapacityGroups){
+        participants = new ArrayList<Participant>();
+        participantGroups = new ArrayList<ParticipantGroup>();
+        groupCapacity = _theGroupCapacity;
+        numOfGroups = _theCapacityGroups;
+        int numParticipants = 0;
+    }
 
     public List<Participant> getParticipants() {
         return participants;
@@ -37,11 +47,11 @@ public class MidAutumnCssaEventImpl extends CssaEvent {
     }
 
     public int getCapacityGroups() {
-        return capacityGroups;
+        return numOfGroups;
     }
 
     public void setCapacityGroups(int capacityGroups) {
-        this.capacityGroups = capacityGroups;
+        this.numOfGroups = capacityGroups;
     }
 
     public Participant createParticipant() {
@@ -49,14 +59,25 @@ public class MidAutumnCssaEventImpl extends CssaEvent {
     }
 
     public Participant addParticipant(Participant participant) {
-        participants.add(numParticipants, participant);
+        participants.add(participant);
         numParticipants++;
+        participant.setParticipantNumber(numParticipants);
+
+//        Check if we need to construct a new group
+        if((participantGroups.size() == 0)||(participantGroups.get(participantGroups.size()-1).atCapacity())){
+            ParticipantGroup newGroup = new ParticipantGroup(groupCapacity);
+            newGroup.addParticipant(participant);
+            participantGroups.add(newGroup);
+        }else{
+            participantGroups.get(participantGroups.size()-1).addParticipant(participant);
+        }
+
         return participant;
     }
 
     public ParticipantGroup addParticipantGroup(ParticipantGroup participantGroup) {
-        participantGroups.add(capacityGroups, participantGroup);
-        capacityGroups++;
+        participantGroups.add(numOfGroups, participantGroup);
+        numOfGroups++;
         return participantGroup;
     }
 }

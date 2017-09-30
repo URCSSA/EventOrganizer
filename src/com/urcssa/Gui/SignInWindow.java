@@ -7,7 +7,7 @@ package com.urcssa.Gui;
  * @version (09/26/2017)
  */
 
-import com.urcssa.Event.ManagerImpl.MidAutumnEventManager;
+//import com.urcssa.Event.ManagerImpl.MidAutumnEventManager;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -141,6 +141,7 @@ public class SignInWindow{
     public void addNewMember(){
         mainWindow.addParticipant(firstNameField.getText(), lastNameField.getText(),
                 (int)classBox.getSelectedItem(), tellUsArea.getText(), !(inspectorBox.isSelected()));
+        mainWindow.update();
         clear();
     }
 

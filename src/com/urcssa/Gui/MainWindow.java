@@ -41,7 +41,7 @@ public class MainWindow {
         eventTitle = theEventTitle;
         numOfGroups = manager.numOfGroups;
         groupCapacity = manager.groupsCapacity;
-        midAutumnCssaEvent = new MidAutumnCssaEventImpl();
+        midAutumnCssaEvent = new MidAutumnCssaEventImpl(groupCapacity, numOfGroups);
 
 //        construct the window (GUI Part)
 //        construct the title panel
@@ -58,6 +58,7 @@ public class MainWindow {
         tablePanel = new JPanel(new GridLayout(3,4));
         tablePanel.setSize(800, 500);
         for(int i=0; i<numOfGroups; i++){
+//            Flora I really love you!!
             panelList.add(new JPanel());
             tableList.add(new JLabel("Table " + Integer.toString(i+1)));
             capacityList.add(new JTextField("0/" + Integer.toString(groupCapacity)));
@@ -133,6 +134,17 @@ public class MainWindow {
         newParticipant.setGradYear(classLevel);
         newParticipant.setLastName(lastName);
         newParticipant.isSpectator = isInspector;
+        midAutumnCssaEvent.addParticipant(newParticipant);
+
+//        TODO update information area.
+    }
+
+    public void update(){
+//        Component[] components = tablePanel.getComponents();
+        for(int i=0; i<midAutumnCssaEvent.getParticipantGroups().size(); i++){
+            capacityList.get(i).setText(Integer.toString(midAutumnCssaEvent.getParticipantGroups()
+                    .get(i).getParticipants().size()) + "/" + Integer.toString(groupCapacity));
+        }
 
     }
 

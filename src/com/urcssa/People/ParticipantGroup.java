@@ -1,5 +1,6 @@
 package com.urcssa.People;
 
+import java.util.ArrayList;
 import java.util.List;
 //import com.urcssa.People.Participant;
 
@@ -13,6 +14,7 @@ public class ParticipantGroup {
 
     public ParticipantGroup(int capacity) {
         this.capacity = capacity;
+        participants = new ArrayList<Integer>();
     }
 
     public String getName() {
