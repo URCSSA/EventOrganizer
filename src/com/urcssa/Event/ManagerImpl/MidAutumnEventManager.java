@@ -5,6 +5,13 @@ import com.urcssa.Event.EventImpl.MidAutumnCssaEventImpl;
 import com.urcssa.Event.EventManager;
 import com.urcssa.People.Participant;
 import com.urcssa.People.ParticipantGroup;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
 
 public class MidAutumnEventManager extends EventManager {
 
@@ -47,14 +54,32 @@ public class MidAutumnEventManager extends EventManager {
 //    }
 
     public void saveEvent(CssaEvent event) {
+        FileOutputStream saveEvent = new FileOutputStream("SaveEvent.sav");
+        ObjectOutputStream save = new ObjectOutputStream(saveEvent);
+        save.writeObject(Participant);
+        save.wtireObject(group);
+        save.close();
+
 
     }
 
     //TODO change parameter to take EventData file
     public CssaEvent loadEvent() {
-        return null;
-    }
+        FileInputStream saveEvent = new FileInputStream("SaveEvent.sav");
+        ObjectInputStream save = new ObjectInputStream(saveEvent);
+        Participant = (String) save.readObject();
+        group = (Integer) save. readObject();
+        save.close();
 
+        System.out.println("\tparticipant: " + Participant);
+       
+    }catch (FileNotFoundException e) {
+            e.printStackTrace();
+    } catch (IOException e) {
+            e.printStackTrace();
+    } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+    }
     /**
      * Asks participant for their name and grad year, and if they want
      * to be just a spectator.
