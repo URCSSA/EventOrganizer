@@ -1,3 +1,10 @@
+/**
+ * This class constructs the lottery window to be accessed by main window.
+ *
+ * @author (Nicholas Wan)
+ * @version (09/30/2017)
+ */
+
 package com.urcssa.Gui;
 
 import com.sun.scenario.effect.impl.sw.java.JSWBlend_COLOR_BURNPeer;

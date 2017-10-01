@@ -29,9 +29,11 @@ public class MainWindow {
     private JButton signInButton;
     private JButton lotteryButton;
     private JButton exitButton;
+    private JComboBox<String> spectatorBox;
     private ArrayList<JPanel> panelList;
     private ArrayList<JLabel> tableList;
     private ArrayList<JTextField> capacityList;
+    private ArrayList<JComboBox<String>> detailList;
     private SignInWindow signInWindow;
     private LotteryWindow lotteryWindow;
 
@@ -62,6 +64,7 @@ public class MainWindow {
 //        construct the table panel
         panelList = new ArrayList<JPanel>(numOfGroups);
         tableList = new ArrayList<JLabel>(numOfGroups);
+        detailList = new ArrayList<JComboBox<String>>(numOfGroups);
         capacityList = new ArrayList<JTextField>(numOfGroups);
         tablePanel = new JPanel(new GridLayout(numOfGroups/5 +1,5));
         tablePanel.setSize(900, 500);
@@ -69,14 +72,19 @@ public class MainWindow {
 //            Flora I really love you!!
             panelList.add(new JPanel());
             tableList.add(new JLabel("Table " + Integer.toString(i+1)));
+            detailList.add(new JComboBox<String>());
+            detailList.get(i).addItem("     ");
             capacityList.add(new JTextField("0/" + Integer.toString(groupCapacity)));
             panelList.get(i).add(tableList.get(i));
             panelList.get(i).add(capacityList.get(i));
+            panelList.get(i).add(detailList.get(i));
             panelList.get(i).setSize(30, 30);
             tablePanel.add(panelList.get(i));
         }
 
 //        construct the button panel
+        spectatorBox = new JComboBox<String>();
+        spectatorBox.addItem("       ");
         buttonPanel = new JPanel();
         buttonPanel.setSize(900,100);
         signInButton = new JButton("Sign In");
@@ -106,6 +114,7 @@ public class MainWindow {
                 exit();
             }
         });
+        buttonPanel.add(spectatorBox);
         buttonPanel.add(signInButton);
         buttonPanel.add(lotteryButton);
         buttonPanel.add(exitButton);
@@ -146,10 +155,11 @@ public class MainWindow {
         int groupNum = midAutumnCssaEvent.addParticipant(newParticipant);
         if (groupNum == -1){
             signInWindow.allTableFull();
+            spectatorBox.addItem(newParticipant.getFirstName() + " " + newParticipant.getLastName());
             return;
         }
         signInWindow.setInformationArea(Integer.toString(groupNum));
-
+        detailList.get(groupNum-1).addItem(newParticipant.getFirstName() + " " + newParticipant.getLastName());
     }
 
     public void update(){

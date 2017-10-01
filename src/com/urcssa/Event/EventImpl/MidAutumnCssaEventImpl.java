@@ -1,3 +1,9 @@
+/**
+ * This class constructs the cssa event to be accessed by the main window.
+ *
+ * @author (Nicholas Wan)
+ * @version (09/30/2017)
+ */
 package com.urcssa.Event.EventImpl;
 
 import com.urcssa.Event.CssaEvent;
@@ -64,7 +70,7 @@ public class MidAutumnCssaEventImpl extends CssaEvent {
         participant.setParticipantNumber(numParticipants);
 
 //        Check if all groups are full
-        if(numParticipants>numOfGroups*groupCapacity){
+        if(numParticipants>numOfGroups*groupCapacity || participant.isSpectator()){
             participant.setGroupNumber(-1);
             return -1;
         }

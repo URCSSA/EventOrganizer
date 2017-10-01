@@ -1,3 +1,9 @@
+/**
+ * This class constructs the GUIManager to access Welcome Window, Settings Window and Main Window.
+ *
+ * @author (Nicholas Wan)
+ * @version (09/30/2017)
+ */
 package com.urcssa;
 
 import com.urcssa.Gui.MainWindow;
