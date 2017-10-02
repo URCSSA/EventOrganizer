@@ -7,8 +7,8 @@
 
 package com.urcssa.Gui;
 
-import com.sun.scenario.effect.impl.sw.java.JSWBlend_COLOR_BURNPeer;
-import sun.applet.Main;
+//import com.sun.scenario.effect.impl.sw.java.JSWBlend_COLOR_BURNPeer;
+//import sun.applet.Main;
 
 import javax.swing.*;
 import java.awt.*;

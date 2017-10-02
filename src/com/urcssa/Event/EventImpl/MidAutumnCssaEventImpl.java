@@ -1,7 +1,7 @@
 /**
  * This class constructs the cssa event to be accessed by the main window.
  *
- * @author (Nicholas Wan)
+ * @author (Kenvin Chen & Nicholas Wan)
  * @version (09/30/2017)
  */
 package com.urcssa.Event.EventImpl;

@@ -137,6 +137,8 @@ public class MainWindow {
         buttonPanel.add(spectatorBox);
         buttonPanel.add(signInButton);
         buttonPanel.add(lotteryButton);
+        buttonPanel.add(saveButton);
+        buttonPanel.add(loadButton);
         buttonPanel.add(exitButton);
 
 //        construct the frame

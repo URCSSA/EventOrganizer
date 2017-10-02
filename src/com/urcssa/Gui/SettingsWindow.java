@@ -1,7 +1,12 @@
 package com.urcssa.Gui;
 
+/**
+ * This class constructs the settings window for a event.
+ *
+ * @author (Nicholas Wan)
+ * @version (09/30/2017)
+ */
 import com.urcssa.GUIManager;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
