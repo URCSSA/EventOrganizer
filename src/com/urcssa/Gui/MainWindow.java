@@ -28,6 +28,8 @@ public class MainWindow {
     private JPanel wholePanel;
     private JButton signInButton;
     private JButton lotteryButton;
+    private JButton saveButton;
+    private JButton loadButton;
     private JButton exitButton;
     private JComboBox<String> spectatorBox;
     private ArrayList<JPanel> panelList;
@@ -105,6 +107,24 @@ public class MainWindow {
                 lottery();
             }
         });
+        saveButton = new JButton("Save");
+        saveButton.setFont(new Font("Goudy Old Style", Font.ITALIC, 35));
+        saveButton.setSize(200,90);
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                save();
+            }
+        });
+        loadButton = new JButton("Load");
+        loadButton.setFont(new Font("Goudy Old Style", Font.ITALIC, 35));
+        loadButton.setSize(200,90);
+        loadButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                load();
+            }
+        });
         exitButton = new JButton("Exit");
         exitButton.setFont(new Font("Goudy Old Style", Font.ITALIC, 35));
         exitButton.setSize(200,90);
@@ -168,6 +188,16 @@ public class MainWindow {
             capacityList.get(i).setText(Integer.toString(midAutumnCssaEvent.getParticipantGroups()
                     .get(i).getParticipants().size()) + "/" + Integer.toString(groupCapacity));
         }
+
+    }
+
+//    TODO implement save event function
+    public void save(){
+
+    }
+
+//    TODO implement load event function
+    public void load(){
 
     }
 

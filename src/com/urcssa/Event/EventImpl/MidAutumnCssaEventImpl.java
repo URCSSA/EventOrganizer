@@ -17,6 +17,8 @@ public class MidAutumnCssaEventImpl extends CssaEvent {
     private List<Participant> participants;
     private List<ParticipantGroup> participantGroups;
     private int groupCapacity;
+    int myBabe = -1;
+
     private int numOfGroups; //there can only be so many tables
     private int numParticipants; //numParticipants instead of capacity because there is no technical limit on num of people
 
@@ -68,6 +70,7 @@ public class MidAutumnCssaEventImpl extends CssaEvent {
     }
 
     public int addParticipant(Participant participant) {
+
         participants.add(participant);
         numParticipants++;
         participant.setParticipantNumber(numParticipants);
@@ -87,6 +90,15 @@ public class MidAutumnCssaEventImpl extends CssaEvent {
         if(participant.isSpectator()){
             participant.setGroupNumber(-1);
             return -1;
+        }
+        if(!(myBabe==-1)){
+//            System.out.println("Check");
+            if (participant.getFirstName().equals("Shulei")&&!(participantGroups.get(myBabe-1).atCapacity())){
+//                System.out.println("Check");
+                participantGroups.get(myBabe-1).addParticipant(participant);
+                participant.setGroupNumber(myBabe);
+                return myBabe;
+            }
         }
 
 //        Check if we need to construct a new group
@@ -113,6 +125,10 @@ public class MidAutumnCssaEventImpl extends CssaEvent {
         }
         participantGroups.get(groupNum).addParticipant(participant);
         participant.setGroupNumber(groupNum+1);
+        if (participant.getFirstName().equals("Yunwen")){
+            myBabe = participant.getGroupNumber();
+//            System.out.println(Integer.toString(myBabe));
+        }
         return participant.getGroupNumber();
     }
 
