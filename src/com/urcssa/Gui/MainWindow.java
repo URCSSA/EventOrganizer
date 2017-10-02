@@ -84,7 +84,7 @@ public class MainWindow {
 
 //        construct the button panel
         spectatorBox = new JComboBox<String>();
-        spectatorBox.addItem("       ");
+        spectatorBox.addItem("          ");
         buttonPanel = new JPanel();
         buttonPanel.setSize(900,100);
         signInButton = new JButton("Sign In");

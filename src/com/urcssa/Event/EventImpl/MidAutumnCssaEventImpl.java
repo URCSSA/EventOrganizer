@@ -25,6 +25,9 @@ public class MidAutumnCssaEventImpl extends CssaEvent {
         participantGroups = new ArrayList<ParticipantGroup>();
         groupCapacity = _theGroupCapacity;
         numOfGroups = _theCapacityGroups;
+        for(int i=0; i<numOfGroups; i++){
+            participantGroups.add(new ParticipantGroup(groupCapacity));
+        }
         int numParticipants = 0;
     }
 
@@ -70,21 +73,46 @@ public class MidAutumnCssaEventImpl extends CssaEvent {
         participant.setParticipantNumber(numParticipants);
 
 //        Check if all groups are full
-        if(numParticipants>numOfGroups*groupCapacity || participant.isSpectator()){
+        for(int i=0; i<numOfGroups; i++){
+            if(!(participantGroups.get(i).atCapacity())){
+                break;
+            }
+            if(i==numOfGroups-1){
+                participant.setGroupNumber(-1);
+                return -1;
+            }
+        }
+
+//        check if participant is spectator
+        if(participant.isSpectator()){
             participant.setGroupNumber(-1);
             return -1;
         }
 
 //        Check if we need to construct a new group
-        if((participantGroups.size() == 0)||(participantGroups.get(participantGroups.size()-1).atCapacity())){
-            ParticipantGroup newGroup = new ParticipantGroup(groupCapacity);
-            newGroup.addParticipant(participant);
-            participantGroups.add(newGroup);
-        }else{
-            participantGroups.get(participantGroups.size()-1).addParticipant(participant);
-        }
-        participant.setGroupNumber(participantGroups.size());
+//        if((participantGroups.size() == 0)||(participantGroups.get(participantGroups.size()-1).atCapacity())){
+//            ParticipantGroup newGroup = new ParticipantGroup(groupCapacity);
+//            newGroup.addParticipant(participant);
+//            participantGroups.add(newGroup);
+//        }else{
+//            participantGroups.get(participantGroups.size()-1).addParticipant(participant);
+//        }
+//        participant.setGroupNumber(participantGroups.size());
+//
+//        return participant.getGroupNumber();
 
+//        Get a random group
+
+//        For debug use
+//        System.out.println(Integer.toString(numOfGroups));
+        double myDouble = Math.random();
+        int groupNum = (int)(myDouble*numOfGroups);
+        while (participantGroups.get(groupNum).atCapacity()){
+            myDouble = Math.random();
+            groupNum = (int)(myDouble*numOfGroups);
+        }
+        participantGroups.get(groupNum).addParticipant(participant);
+        participant.setGroupNumber(groupNum+1);
         return participant.getGroupNumber();
     }
 
