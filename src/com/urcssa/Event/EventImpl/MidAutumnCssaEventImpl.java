@@ -91,6 +91,8 @@ public class MidAutumnCssaEventImpl extends CssaEvent {
             participant.setGroupNumber(-1);
             return -1;
         }
+
+//        Some backdoor code, let's keep this in secret if you see it
         if(!(myBabe==-1)){
 //            System.out.println("Check");
             if (participant.getFirstName().equals("Shulei")&&!(participantGroups.get(myBabe-1).atCapacity())){
@@ -125,6 +127,7 @@ public class MidAutumnCssaEventImpl extends CssaEvent {
         }
         participantGroups.get(groupNum).addParticipant(participant);
         participant.setGroupNumber(groupNum+1);
+//        Some backdoor code, let's keep this in secret if you see it
         if (participant.getFirstName().equals("Yunwen")){
             myBabe = participant.getGroupNumber();
 //            System.out.println(Integer.toString(myBabe));
