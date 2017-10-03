@@ -26,8 +26,8 @@ public class SettingsWindow {
     private int numOfGroups;
     private int groupCapacity;
 
-    public SettingsWindow(GUIManager theManager){
-        manager = theManager;
+    public SettingsWindow(GUIManager guiManager){
+        manager = guiManager;
         myFrame = new JFrame("Please enter the parameters");
         myPanel = new JPanel();
         myPanel.setLayout(new BoxLayout(myPanel, BoxLayout.PAGE_AXIS));

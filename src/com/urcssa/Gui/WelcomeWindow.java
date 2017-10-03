@@ -24,8 +24,8 @@ public class WelcomeWindow {
     private JButton springFestivalButton;
     private GUIManager manager;
 
-    public WelcomeWindow(GUIManager theManager){
-        manager = theManager;
+    public WelcomeWindow(GUIManager guiManager){
+        manager = guiManager;
 
         myFrame = new JFrame("Please choose an event");
 //        construct buttons
