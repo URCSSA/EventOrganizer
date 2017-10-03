@@ -9,7 +9,7 @@ package com.urcssa.Gui;
 
 import com.urcssa.Event.EventImpl.MidAutumnCssaEventImpl;
 //import com.urcssa.Event.ManagerImpl.MidAutumnEventManager;
-import com.urcssa.GUIManager;
+import com.urcssa.Event.ManagerImpl.MidAutumnEventManager;
 import com.urcssa.People.Participant;
 
 import javax.swing.*;
@@ -40,20 +40,75 @@ public class MainWindow {
     private LotteryWindow lotteryWindow;
 
 //    Dara part
-    GUIManager manager;
+    MidAutumnEventManager manager;
     String eventTitle;
     int numOfGroups;
     int groupCapacity;
 //    private MidAutumnEventManager midAutumnEventManager;
     private MidAutumnCssaEventImpl midAutumnCssaEvent;
 
-    public MainWindow(GUIManager theManager, String theEventTitle){
+    public void signIn(){
+        signInWindow = new SignInWindow("Please sign in", manager, this);
+    }
+
+    public void lottery(){
+        lotteryWindow = new LotteryWindow(this);
+    }
+
+    public void exit(){
+        myFrame.setVisible(false);
+    }
+
+    public void addParticipant(String firstName, String lastName, int classLevel, String words, boolean isInspector){
+        Participant newParticipant = new Participant();
+        newParticipant.setFirstName(firstName);
+        newParticipant.setGradYear(classLevel);
+        newParticipant.setLastName(lastName);
+        newParticipant.setSpectator(isInspector);
+        newParticipant.setRemark(words);
+        int groupNum = midAutumnCssaEvent.addParticipant(newParticipant);
+        if (groupNum == -1){
+            signInWindow.allTableFull();
+            spectatorBox.addItem(newParticipant.getFirstName() + " " + newParticipant.getLastName());
+            return;
+        }
+        signInWindow.setInformationArea(Integer.toString(groupNum));
+        detailList.get(groupNum-1).addItem(newParticipant.getFirstName() + " " + newParticipant.getLastName());
+    }
+
+    public void update(){
+//        Component[] components = tablePanel.getComponents();
+        for(int i=0; i<midAutumnCssaEvent.getParticipantGroups().size(); i++){
+            capacityList.get(i).setText(Integer.toString(midAutumnCssaEvent.getParticipantGroups()
+                    .get(i).getParticipants().size()) + "/" + Integer.toString(groupCapacity));
+        }
+
+    }
+
+    //    TODO implement save event function
+    public void save(){
+
+    }
+
+    //    TODO implement load event function
+    public void load(){
+
+    }
+
+    public MidAutumnCssaEventImpl getEvent(){
+        return midAutumnCssaEvent;
+    }
+
+
+    public MainWindow(MidAutumnEventManager midAutumnEventManager, String eventTitle){
 //        Construct data
-        manager = theManager;
-        eventTitle = theEventTitle;
-        numOfGroups = manager.numOfGroups;
-        groupCapacity = manager.groupsCapacity;
-        midAutumnCssaEvent = new MidAutumnCssaEventImpl(groupCapacity, numOfGroups);
+        manager = midAutumnEventManager;
+
+        midAutumnCssaEvent = (MidAutumnCssaEventImpl)manager.getEvent();
+
+        this.eventTitle = eventTitle;
+        numOfGroups = midAutumnCssaEvent.getParticipantGroups().size();
+        groupCapacity = midAutumnCssaEvent.getCapacityGroups();
 
 //        construct the window (GUI Part)
 //        construct the title panel
@@ -155,59 +210,4 @@ public class MainWindow {
         myFrame.setVisible(true);
     }
 
-    public void signIn(){
-        signInWindow = new SignInWindow("Please sign in", this);
-    }
-
-    public void lottery(){
-        lotteryWindow = new LotteryWindow(this);
-    }
-
-    public void exit(){
-        myFrame.setVisible(false);
-    }
-
-    public void addParticipant(String firstName, String lastName, int classLevel, String words, boolean isInspector){
-        Participant newParticipant = new Participant();
-        newParticipant.setFirstName(firstName);
-        newParticipant.setGradYear(classLevel);
-        newParticipant.setLastName(lastName);
-        newParticipant.setSpectator(isInspector);
-        newParticipant.setWords(words);
-        int groupNum = midAutumnCssaEvent.addParticipant(newParticipant);
-        if (groupNum == -1){
-            signInWindow.allTableFull();
-            spectatorBox.addItem(newParticipant.getFirstName() + " " + newParticipant.getLastName());
-            return;
-        }
-        signInWindow.setInformationArea(Integer.toString(groupNum));
-        detailList.get(groupNum-1).addItem(newParticipant.getFirstName() + " " + newParticipant.getLastName());
-    }
-
-    public void update(){
-//        Component[] components = tablePanel.getComponents();
-        for(int i=0; i<midAutumnCssaEvent.getParticipantGroups().size(); i++){
-            capacityList.get(i).setText(Integer.toString(midAutumnCssaEvent.getParticipantGroups()
-                    .get(i).getParticipants().size()) + "/" + Integer.toString(groupCapacity));
-        }
-
-    }
-
-//    TODO implement save event function
-    public void save(){
-
-    }
-
-//    TODO implement load event function
-    public void load(){
-
-    }
-
-    public MidAutumnCssaEventImpl getEvent(){
-        return midAutumnCssaEvent;
-    }
-
-//    public static void main(String[] args){
-//        new MainWindow(new GUIManager(), "testing");
-//    }
 }

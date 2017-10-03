@@ -4,7 +4,7 @@ public class Participant {
     private String firstName;
     private String lastName;
     private int gradYear;
-    private String words;
+    private String remark;
 
     private int participantNumber;//1 - max number
     private int groupNumber;//1 - numOfTable
@@ -59,7 +59,7 @@ public class Participant {
         this.groupNumber = groupNumber;
     }
 
-    public void setWords(String s){ this.words = s;}
+    public void setRemark(String s){ this.remark = s;}
 
-    public String getWords(){return words;}
+    public String getRemark(){return remark;}
 }

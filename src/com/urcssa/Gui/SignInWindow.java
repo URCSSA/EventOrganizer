@@ -1,13 +1,9 @@
 package com.urcssa.Gui;
 
-/**
- * This class constructs a sign in window for a event.
- *
- * @author (Nicholas Wan)
- * @version (09/26/2017)
- */
-
 //import com.urcssa.Event.ManagerImpl.MidAutumnEventManager;
+
+import com.urcssa.Event.ManagerImpl.MidAutumnEventManager;
+import com.urcssa.People.Participant;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -18,55 +14,42 @@ import javax.swing.*;
 
 
 public class SignInWindow{
-//    GUI part
-    private JFrame myFrame;
-	private JPanel upperPanel;
-	private JPanel middlePanel;
-	private JPanel lowerPanel;
-	private JPanel buttonPanel;
-	private JPanel wholePanel;
-	private JLabel firstNameLabel;
-	private JTextField firstNameField;
-	private JLabel lastNameLabel;
-	private JTextField lastNameField;
-	private JLabel classLabel;
-	private JCheckBox inspectorBox;
-	private JComboBox<Integer> classBox;
-	private JLabel  tellUsLabel;
-	private JTextArea  tellUsArea;
-	private JButton submitButton;
-	private JButton clearButton;
-    private JTextArea informationArea;
-    private MainWindow mainWindow;
+    private final JTextField firstNameField;
+    private final JTextField lastNameField;
+    private final JCheckBox inspectorBox;
+	private final JComboBox<Integer> classBox;
+    private final JTextArea  tellUsArea;
+    private final JTextArea informationArea;
+    private final MidAutumnEventManager manager;
+    private final MainWindow mainWindow;
 
-//    Variable part
-    private final Integer[] classArray = new Integer[] {2021, 2020, 2019, 2018};
+    /*
+        *Default constructor to create a window.
+        */
+	public SignInWindow(String title, MidAutumnEventManager manager, MainWindow mainWindow){
+        JFrame myFrame = new JFrame(title);
+	    this.manager = manager;
+        this.mainWindow = mainWindow;
 
-	/*
-    *Default constructor to create a window.
-    */
-	public SignInWindow(String title, MainWindow theMainWindow){
-	    myFrame = new JFrame(title);
-	    mainWindow = theMainWindow;
 //	      construct Panels, three sub-panels and a whole panel.
-        upperPanel = new JPanel(new FlowLayout());
+        JPanel upperPanel = new JPanel(new FlowLayout());
         upperPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
-        middlePanel = new JPanel(new BorderLayout());
+        JPanel middlePanel = new JPanel(new BorderLayout());
         middlePanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
-        buttonPanel = new JPanel(new FlowLayout());
-        lowerPanel = new JPanel(new BorderLayout());
+        JPanel buttonPanel = new JPanel(new FlowLayout());
+        JPanel lowerPanel = new JPanel(new BorderLayout());
         lowerPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
-        wholePanel = new JPanel();
+        JPanel wholePanel = new JPanel();
         wholePanel.setLayout(new BoxLayout(wholePanel, BoxLayout.PAGE_AXIS));
 
 //        construct labels
-        firstNameLabel = new JLabel("First Name:");
+        JLabel firstNameLabel = new JLabel("First Name:");
         firstNameLabel.setFont(new Font("Goudy Old Style", Font.ITALIC, 25));
-        lastNameLabel = new JLabel("Last Name:");
+        JLabel lastNameLabel = new JLabel("Last Name:");
         lastNameLabel.setFont(new Font("Goudy Old Style", Font.ITALIC, 25));
-        classLabel = new JLabel("Class:");
+        JLabel classLabel = new JLabel("Class:");
         classLabel.setFont(new Font("Goudy Old Style", Font.ITALIC, 25));
-        tellUsLabel = new JLabel("Anything you wanna tell us?");
+        JLabel tellUsLabel = new JLabel("Anything you wanna tell us?");
         tellUsLabel.setFont(new Font("Goudy Old Style", Font.ITALIC, 25));
 
 //        construct fields
@@ -80,30 +63,23 @@ public class SignInWindow{
         informationArea.setFont(new Font("", Font.ITALIC, 20));
 
 //        construct comboBox and buttons
+        Integer[] classArray = new Integer[]{2021, 2020, 2019, 2018};
         classBox = new JComboBox<>(classArray);
         inspectorBox = new JCheckBox("I will participate games.");
         inspectorBox.setFont(new Font("", Font.ITALIC, 20));
-        submitButton = new JButton("Submit");
+        JButton submitButton = new JButton("Submit");
         submitButton.setActionCommand("Submit");
         submitButton.setPreferredSize(new Dimension(120,50));
         submitButton.setFont(new Font("Arial", Font.ITALIC, 20));
-        submitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                addNewMember();
-            }
-        });
+        submitButton.addActionListener(e -> addNewMember());
 //        submitButton.setMaximumSize(submitButton.getSize());
-        clearButton = new JButton("Clear");
+        JButton clearButton = new JButton("Clear");
         clearButton.setActionCommand("Clear");
         clearButton.setPreferredSize(new Dimension(120,50));
         clearButton.setFont(new Font("Arial", Font.ITALIC, 20));
-        clearButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                clear();
-                informationArea.setText("");
-            }
+        clearButton.addActionListener(e -> {
+            clear();
+            informationArea.setText("");
         });
 //        clearButton.setMaximumSize(clearButton.getSize());
 
@@ -139,15 +115,18 @@ public class SignInWindow{
         myFrame.setVisible(true);
 	}
 
-    public void addNewMember(){
+    private void addNewMember(){
 	    informationArea.setText("");
-        mainWindow.addParticipant(firstNameField.getText(), lastNameField.getText(),
+        Participant participant = manager.populateParticipant(firstNameField.getText(), lastNameField.getText(),
                 (int)classBox.getSelectedItem(), tellUsArea.getText(), !(inspectorBox.isSelected()));
+
+        manager.seatParticipant(participant);
+
         mainWindow.update();
         clear();
     }
 
-    public void clear(){
+    private void clear(){
         firstNameField.setText("");
         lastNameField.setText("");
         tellUsArea.setText("");
