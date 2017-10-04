@@ -107,8 +107,16 @@ public class MidAutumnEventImpl extends CssaEvent {
             //assign participant to a random table subject to capacity
             Random r = new Random();
             int groupAssignment = r.nextInt(numGroups);
+
+            int numAttempts = 0;
+
             while( participantGroups.get(groupAssignment).atCapacity() ) {
+                if (numAttempts == numParticipants * numParticipants) {
+                    groupAssignment = -1;
+                    break;
+                }
                 groupAssignment = r.nextInt(numGroups);
+                numAttempts++;
             }
             participant.setGroupNumber(groupAssignment);
             getParticipantGroup(groupAssignment).addParticipant(participant);
@@ -131,5 +139,14 @@ public class MidAutumnEventImpl extends CssaEvent {
         participantGroups.add(numGroups, participantGroup);
         numGroups++;
         return participantGroup;
+    }
+
+    private int findNotFilledTable() {
+        for (int i = 0; i < numGroups; i++) {
+            if (!participantGroups.get(i).atCapacity()) {
+                return i;
+            }
+        }
+        return -1;
     }
 }
