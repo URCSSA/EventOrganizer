@@ -10,6 +10,9 @@ package com.urcssa.Gui;
 //import com.sun.scenario.effect.impl.sw.java.JSWBlend_COLOR_BURNPeer;
 //import sun.applet.Main;
 
+import com.urcssa.Event.ManagerImpl.MidAutumnEventManagerImpl;
+import com.urcssa.People.Participant;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -20,6 +23,8 @@ public class LotteryWindow {
 //    Data
     private MainWindow mainWindow;
     private int maxNumber;
+    private MidAutumnEventManagerImpl manager;
+
 //    Gui
     private JFrame myFrame;
     private JTextField nameField;
@@ -33,7 +38,8 @@ public class LotteryWindow {
     public LotteryWindow(MainWindow theMainWindow){
 //        Data
         mainWindow = theMainWindow;
-        maxNumber = mainWindow.getEvent().getParticipants().size();
+        maxNumber = manager.numberOfParticipants();
+
         Timer t = new Timer(10, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -92,12 +98,10 @@ public class LotteryWindow {
         myFrame.setVisible(true);
     }
 
-    public void printRandomName(int maxNumer){
+    public void printRandomName(int maxNumer) {
 //        int maxNumber = mainWindow.getEvent().getParticipants().size();
-        int num = (int)(Math.random() * maxNumber);
-        nameField.setText(mainWindow.getEvent().getParticipants().get(num).getFirstName() + "  " +
-                mainWindow.getEvent().getParticipants().get(num).getLastName());
+        int num = (int) (Math.random() * maxNumber);
+        Participant participant = manager.selectParticipant(num);
+        nameField.setText(participant.getFirstName() + "  " + participant.getLastName());
     }
-
-
 }

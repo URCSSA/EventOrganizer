@@ -14,8 +14,7 @@ import java.util.Scanner;
 public class EventManager {
     protected static final int SPECTATOR = -1;
 
-    CssaEvent event; //the event this manager is managing
-//    Logger log;
+    protected CssaEvent event; //the event this manager is managing
 
     public EventManager() {
 //        this.log = Logger.getLogger(EventManager.class);
@@ -90,11 +89,11 @@ public class EventManager {
         return answer;
     }
 
-    public CssaEvent getEvent() {
+    protected CssaEvent getEvent() {
         return event;
     }
 
-    public void setEvent(CssaEvent event) {
+    protected void setEvent(CssaEvent event) {
         this.event = event;
     }
 }

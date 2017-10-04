@@ -2,7 +2,7 @@
 package com.urcssa.Event.ManagerImpl;
 
 import com.urcssa.Event.CssaEvent;
-import com.urcssa.Event.EventImpl.MidAutumnCssaEventImpl;
+import com.urcssa.Event.EventImpl.MidAutumnEventImpl;
 import com.urcssa.Event.EventManager;
 import com.urcssa.People.Participant;
 import com.urcssa.People.ParticipantGroup;
@@ -12,32 +12,38 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 
-public class MidAutumnEventManager extends EventManager {
-
-//    public manageWindow;
+public class MidAutumnEventManagerImpl extends EventManager {
 
 
-    public CssaEvent startEvent(CssaEvent event) {
-        if (event instanceof MidAutumnCssaEventImpl) {
+    public CssaEvent startEvent() {
+        if (event instanceof MidAutumnEventImpl) {
 //            log.info("Starting midAutumn event");
             System.out.println("Starting midAutumn event");
-            MidAutumnCssaEventImpl midAutumnCssaEvent = (MidAutumnCssaEventImpl) event;
+            MidAutumnEventImpl midAutumnCssaEvent = (MidAutumnEventImpl) event;
 
-            midAutumnCssaEvent.setCapacityGroups(askForCapGroups()); //remember how many fully participating tables there are
+            midAutumnCssaEvent.setNumGroups(askForNumGroups()); //remember how many fully participating tables there are
 
-            for (int i = 0; i < midAutumnCssaEvent.getCapacityGroups(); i++) {
+            for (int i = 0; i < midAutumnCssaEvent.getNumGroups(); i++) {
                 midAutumnCssaEvent.addParticipantGroup(new ParticipantGroup(0));
             }
 
             //All "tables" are set. Ready to admit participants!
 
-            while (takeBooleanInput("Continuing adding participant?")) {
-//                midAutumnCssaEvent.addParticipant(populateParticipant(firstName, lastName, gradYear, isSpectator));
-            }
         }
         return null;
     }
 
+    /**
+     * Initializes a MidAutumnEventManager using input given
+     * @param groupSize
+     * @param numGroups
+     * @return
+     */
+    public MidAutumnEventManagerImpl startEvent(int groupSize, int numGroups) {
+        event = new MidAutumnEventImpl(groupSize, numGroups);
+
+        return this;
+    }
 
     public void saveEvent(CssaEvent event) throws Exception {
         FileOutputStream saveEvent = new FileOutputStream("SaveEvent.sav");
@@ -66,6 +72,37 @@ public class MidAutumnEventManager extends EventManager {
         return null;
     }
 
+    public int getGroupSize() {
+        return getEvent().getGroupSize();
+    }
+
+    public ParticipantGroup getParticipantGroup(int i) {
+        return getEvent().getParticipantGroup(i);
+    }
+
+    protected MidAutumnEventImpl getEvent() {
+        if (super.getEvent() instanceof MidAutumnEventImpl) {
+            return (MidAutumnEventImpl) super.getEvent();
+        } else throw new TypeNotPresentException("This manager is not managing a MidAutumn activity", new Exception());
+    }
+
+    public int numberOfGroups() {
+        return  getEvent().getNumGroups();
+    }
+
+    public int numberOfParticipants() {
+        return getEvent().getNumberOfParticipants();
+    }
+
+    /**
+     * Given a participant number, returns a specific participant
+     * @param participantNumber
+     * @return
+     */
+    public Participant selectParticipant(int participantNumber) {
+        return getEvent().getParticipant(participantNumber);
+    }
+
     /**
      * Asks participant for their name and grad year, and if they want
      * to be just a spectator.
@@ -77,7 +114,7 @@ public class MidAutumnEventManager extends EventManager {
      * @param gradYear
      * @param isSpectator
      */
-    public Participant populateParticipant(String firstName, String lastName, int gradYear, String remark, boolean isSpectator) {
+    public Participant addParticipant(String firstName, String lastName, int gradYear, String remark, boolean isSpectator) {
         Participant participant = new Participant();
         participant.setFirstName( firstName);
         participant.setLastName(  lastName         ) ;
@@ -85,26 +122,24 @@ public class MidAutumnEventManager extends EventManager {
         participant.setRemark(remark);
         participant.setSpectator(  isSpectator         );
 
-        if (!participant.isSpectator()) {
-            participant.setParticipantNumber(       assignParticipantNumber()    );
-            participant.setGroupNumber(             assignGroupNumber()          );
-        }
-        else {
-            participant.setParticipantNumber(SPECTATOR);
-            participant.setGroupNumber(SPECTATOR);
-        }
+        //The above fields are created here. Assignments of group and participant number are
+        //done by the seating method.
+
+        seatParticipant(participant);
 
         return participant;
     }
 
+    /**
+     * Sends the Participant (whose biographic information is provided) to
+     * the activity for group and participant number assignment
+     * @param participant
+     * @return
+     */
     public Participant seatParticipant(Participant participant) {
-        MidAutumnCssaEventImpl event = (MidAutumnCssaEventImpl)this.getEvent();
+        MidAutumnEventImpl event = getEvent();
         event.addParticipant(participant);
         return participant;
-    }
-
-    public Participant selectParticipant() {
-        return null;
     }
 
     private boolean askForSpectator() {
@@ -128,31 +163,11 @@ public class MidAutumnEventManager extends EventManager {
      * for active audience.
      * @return
      */
-    public int askForCapGroups() {
+    public int askForNumGroups() {
         int answer = 0;
 
         String message = "Max number of groups is: " + answer;
 //        log.info(message);
         return answer;
-    }
-
-    /**
-     * Should update the groupNum field of the participant
-     * AND
-     * update the group of the event
-     * @return
-     */
-    private int assignGroupNumber() {
-        return 0;
-    }
-
-    /**
-     * May need to update the participantNum of the participant
-     * AND
-     * update any relevant field in the event
-     * @return
-     */
-    private int assignParticipantNumber() {
-        return 0;
     }
 }

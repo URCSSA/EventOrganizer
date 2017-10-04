@@ -12,6 +12,10 @@ public class ParticipantGroup {
     private int capacity;
     private List<Integer> participants;
 
+    public int getSize() {
+        return participants.size();
+    }
+
     public ParticipantGroup(int capacity) {
         this.capacity = capacity;
         participants = new ArrayList<Integer>();

@@ -6,14 +6,14 @@
  */
 package com.urcssa;
 
-import com.urcssa.Event.ManagerImpl.MidAutumnEventManager;
+import com.urcssa.Event.ManagerImpl.MidAutumnEventManagerImpl;
 import com.urcssa.Gui.MainWindow;
 import com.urcssa.Gui.SettingsWindow;
 import com.urcssa.Gui.WelcomeWindow;
 
 public class GUIManager {
-    public int numOfGroups;
-    public int groupsCapacity;
+    public int numGroups;
+    public int groupSize;
     private WelcomeWindow welcomeWindow;
     private SettingsWindow settingsWindow;
 
@@ -21,16 +21,18 @@ public class GUIManager {
         welcomeWindow = new WelcomeWindow(this);
     }
 
-    public void getEventSettings(){
+    public void retrieveMidAutumnEventSettings(){
         settingsWindow = new SettingsWindow(this);
         welcomeWindow.setInvisible();
     }
 
-    public void getMainWindow(){
-        numOfGroups = settingsWindow.getNumOfGroup();
-        groupsCapacity = settingsWindow.getGroupCapacity();
+    public void startMidAutumnMainWindow(){
+        numGroups = settingsWindow.getNumOfGroup();
+        groupSize = settingsWindow.getGroupCapacity();
+        MidAutumnEventManagerImpl manager = new MidAutumnEventManagerImpl().startEvent(numGroups, groupSize);
+
         settingsWindow.setInvisible();
-        MainWindow mainWindow = new MainWindow(new MidAutumnEventManager(), "Happy Mid-autumn Festival!");
+        MainWindow mainWindow = new MainWindow(manager, "Happy Mid-autumn Festival!");
     }
 
     public static void main(String[] args){

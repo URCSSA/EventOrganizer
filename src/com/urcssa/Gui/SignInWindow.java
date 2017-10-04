@@ -1,13 +1,11 @@
 package com.urcssa.Gui;
 
-//import com.urcssa.Event.ManagerImpl.MidAutumnEventManager;
+//import com.urcssa.Event.ManagerImpl.MidAutumnEventManagerImpl;
 
-import com.urcssa.Event.ManagerImpl.MidAutumnEventManager;
+import com.urcssa.Event.ManagerImpl.MidAutumnEventManagerImpl;
 import com.urcssa.People.Participant;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.lang.*;
 //import java.awt.event;
 import javax.swing.*;
@@ -16,17 +14,17 @@ import javax.swing.*;
 public class SignInWindow{
     private final JTextField firstNameField;
     private final JTextField lastNameField;
-    private final JCheckBox inspectorBox;
+    private final JCheckBox isSpectatorBox;
 	private final JComboBox<Integer> classBox;
     private final JTextArea  tellUsArea;
     private final JTextArea informationArea;
-    private final MidAutumnEventManager manager;
+    private final MidAutumnEventManagerImpl manager;
     private final MainWindow mainWindow;
 
     /*
         *Default constructor to create a window.
         */
-	public SignInWindow(String title, MidAutumnEventManager manager, MainWindow mainWindow){
+	public SignInWindow(String title, MidAutumnEventManagerImpl manager, MainWindow mainWindow){
         JFrame myFrame = new JFrame(title);
 	    this.manager = manager;
         this.mainWindow = mainWindow;
@@ -65,8 +63,8 @@ public class SignInWindow{
 //        construct comboBox and buttons
         Integer[] classArray = new Integer[]{2021, 2020, 2019, 2018};
         classBox = new JComboBox<>(classArray);
-        inspectorBox = new JCheckBox("I will participate games.");
-        inspectorBox.setFont(new Font("", Font.ITALIC, 20));
+        isSpectatorBox = new JCheckBox("I will participate games.");
+        isSpectatorBox.setFont(new Font("", Font.ITALIC, 20));
         JButton submitButton = new JButton("Submit");
         submitButton.setActionCommand("Submit");
         submitButton.setPreferredSize(new Dimension(120,50));
@@ -90,7 +88,7 @@ public class SignInWindow{
         upperPanel.add(lastNameField);
         upperPanel.add(classLabel);
         upperPanel.add(classBox);
-        upperPanel.add(inspectorBox);
+        upperPanel.add(isSpectatorBox);
         upperPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 
 //        Arranging middlePanel
@@ -117,10 +115,9 @@ public class SignInWindow{
 
     private void addNewMember(){
 	    informationArea.setText("");
-        Participant participant = manager.populateParticipant(firstNameField.getText(), lastNameField.getText(),
-                (int)classBox.getSelectedItem(), tellUsArea.getText(), !(inspectorBox.isSelected()));
 
-        manager.seatParticipant(participant);
+        mainWindow.prepareParticipant(firstNameField.getText(), lastNameField.getText(),
+                (int)classBox.getSelectedItem(), tellUsArea.getText(), !(isSpectatorBox.isSelected()));
 
         mainWindow.update();
         clear();

@@ -64,7 +64,7 @@ public class SettingsWindow {
     public void submit(){
         numOfGroups = Integer.parseInt(numOfGroupField.getText());
         groupCapacity = Integer.parseInt(groupCapacityField.getText());
-        manager.getMainWindow();
+        manager.startMidAutumnMainWindow();
     }
 
     public void setInvisible(){

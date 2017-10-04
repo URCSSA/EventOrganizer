@@ -57,7 +57,7 @@ public class WelcomeWindow {
     }
 
     public void midAutumnButtonClicked(){
-        manager.getEventSettings();
+        manager.retrieveMidAutumnEventSettings();
     }
 
     public void setInvisible(){

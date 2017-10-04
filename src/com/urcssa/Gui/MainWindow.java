@@ -7,131 +7,115 @@ package com.urcssa.Gui;
  * @version (09/30/2017)
  */
 
-import com.urcssa.Event.EventImpl.MidAutumnCssaEventImpl;
-//import com.urcssa.Event.ManagerImpl.MidAutumnEventManager;
-import com.urcssa.Event.ManagerImpl.MidAutumnEventManager;
+//import com.urcssa.Event.ManagerImpl.MidAutumnEventManagerImpl;
+import com.urcssa.Event.ManagerImpl.MidAutumnEventManagerImpl;
 import com.urcssa.People.Participant;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class MainWindow {
 //    GUI part
-    private JFrame myFrame;
-    private JPanel titlePanel;
-    private JPanel buttonPanel;
-    private JPanel tablePanel;
-    private JLabel titleLabel;
-    private JPanel wholePanel;
-    private JButton signInButton;
-    private JButton lotteryButton;
-    private JButton saveButton;
-    private JButton loadButton;
-    private JButton exitButton;
-    private JComboBox<String> spectatorBox;
-    private ArrayList<JPanel> panelList;
-    private ArrayList<JLabel> tableList;
-    private ArrayList<JTextField> capacityList;
-    private ArrayList<JComboBox<String>> detailList;
+    private final JFrame myFrame;
+    private final JComboBox<String> spectatorBox;
+    private final ArrayList<JTextField> capacityList;
+    private final ArrayList<JComboBox<String>> detailList;
     private SignInWindow signInWindow;
-    private LotteryWindow lotteryWindow;
 
-//    Dara part
-    MidAutumnEventManager manager;
-    String eventTitle;
-    int numOfGroups;
-    int groupCapacity;
-//    private MidAutumnEventManager midAutumnEventManager;
-    private MidAutumnCssaEventImpl midAutumnCssaEvent;
+    //    Dara part
+private final MidAutumnEventManagerImpl manager;
+    private final int groupSize;
 
-    public void signIn(){
+//    private MidAutumnEventImpl midAutumnCssaEvent;
+
+    private void signIn(){
         signInWindow = new SignInWindow("Please sign in", manager, this);
     }
 
-    public void lottery(){
-        lotteryWindow = new LotteryWindow(this);
+    private void lottery(){
+        LotteryWindow lotteryWindow = new LotteryWindow(this);
     }
 
-    public void exit(){
+    private void exit(){
         myFrame.setVisible(false);
     }
 
-    public void addParticipant(String firstName, String lastName, int classLevel, String words, boolean isInspector){
-        Participant newParticipant = new Participant();
-        newParticipant.setFirstName(firstName);
-        newParticipant.setGradYear(classLevel);
-        newParticipant.setLastName(lastName);
-        newParticipant.setSpectator(isInspector);
-        newParticipant.setRemark(words);
-        int groupNum = midAutumnCssaEvent.addParticipant(newParticipant);
-        if (groupNum == -1){
-            signInWindow.allTableFull();
-            spectatorBox.addItem(newParticipant.getFirstName() + " " + newParticipant.getLastName());
+    /**
+     * Prepares a participant object for the ActManager to add to the Activity. Displays changes to
+     * System that result from this add.
+     * @param firstName
+     * @param lastName
+     * @param classLevel
+     * @param remark
+     * @param isSpectator
+     */
+    public void prepareParticipant(String firstName, String lastName, int classLevel, String remark, boolean isSpectator){
+        Participant participant = manager.addParticipant(firstName, lastName, classLevel, remark, isSpectator);
+
+        int groupNum = participant.getGroupNumber();
+
+
+        if (groupNum == -1) {
+            signInWindow.allTableFull();//TODO rephrase feedback text
+            spectatorBox.addItem(participant.getFirstName() + " " + participant.getLastName());
             return;
         }
+
         signInWindow.setInformationArea(Integer.toString(groupNum));
-        detailList.get(groupNum-1).addItem(newParticipant.getFirstName() + " " + newParticipant.getLastName());
+        detailList.get(groupNum-1).addItem(participant.getFirstName() + " " + participant.getLastName());
     }
 
     public void update(){
 //        Component[] components = tablePanel.getComponents();
-        for(int i=0; i<midAutumnCssaEvent.getParticipantGroups().size(); i++){
-            capacityList.get(i).setText(Integer.toString(midAutumnCssaEvent.getParticipantGroups()
-                    .get(i).getParticipants().size()) + "/" + Integer.toString(groupCapacity));
+        for(int i = 0; i < manager.numberOfGroups(); i++) {
+            capacityList.get(i).setText(Integer.toString(manager.getParticipantGroup(i).getSize()) + "/"
+                    + Integer.toString(groupSize));
         }
 
     }
 
     //    TODO implement save event function
-    public void save(){
+    private void save(){
 
     }
 
     //    TODO implement load event function
-    public void load(){
+    private void load(){
 
     }
 
-    public MidAutumnCssaEventImpl getEvent(){
-        return midAutumnCssaEvent;
-    }
 
-
-    public MainWindow(MidAutumnEventManager midAutumnEventManager, String eventTitle){
+    public MainWindow(MidAutumnEventManagerImpl midAutumnEventManagerImpl, String eventTitle){
 //        Construct data
-        manager = midAutumnEventManager;
+        manager = midAutumnEventManagerImpl;
 
-        midAutumnCssaEvent = (MidAutumnCssaEventImpl)manager.getEvent();
-
-        this.eventTitle = eventTitle;
-        numOfGroups = midAutumnCssaEvent.getParticipantGroups().size();
-        groupCapacity = midAutumnCssaEvent.getCapacityGroups();
+        String eventTitle1 = eventTitle;
+        int numGroups = midAutumnEventManagerImpl.numberOfGroups();
+        groupSize = midAutumnEventManagerImpl.getGroupSize();
 
 //        construct the window (GUI Part)
 //        construct the title panel
-        titleLabel = new JLabel("Happy Mid-Autumn Festival!");
+        JLabel titleLabel = new JLabel("Happy Mid-Autumn Festival!");
         titleLabel.setFont(new Font("Goudy Old Style", Font.ITALIC, 70));
-        titlePanel = new JPanel();
+        JPanel titlePanel = new JPanel();
         titlePanel.setSize(900,200);
         titlePanel.add(titleLabel);
 
 //        construct the table panel
-        panelList = new ArrayList<JPanel>(numOfGroups);
-        tableList = new ArrayList<JLabel>(numOfGroups);
-        detailList = new ArrayList<JComboBox<String>>(numOfGroups);
-        capacityList = new ArrayList<JTextField>(numOfGroups);
-        tablePanel = new JPanel(new GridLayout(numOfGroups/5 +1,5));
+        ArrayList<JPanel> panelList = new ArrayList<>(numGroups);
+        ArrayList<JLabel> tableList = new ArrayList<>(numGroups);
+        detailList = new ArrayList<>(numGroups);
+        capacityList = new ArrayList<>(numGroups);
+        JPanel tablePanel = new JPanel(new GridLayout(numGroups / 5 + 1, 5));
         tablePanel.setSize(900, 500);
-        for(int i=0; i<numOfGroups; i++){
+        for(int i = 0; i< numGroups; i++){
 //            Flora I really love you!!
             panelList.add(new JPanel());
             tableList.add(new JLabel("Table " + Integer.toString(i+1)));
-            detailList.add(new JComboBox<String>());
+            detailList.add(new JComboBox<>());
             detailList.get(i).addItem("     ");
-            capacityList.add(new JTextField("0/" + Integer.toString(groupCapacity)));
+            capacityList.add(new JTextField("0/" + Integer.toString(groupSize)));
             panelList.get(i).add(tableList.get(i));
             panelList.get(i).add(capacityList.get(i));
             panelList.get(i).add(detailList.get(i));
@@ -140,55 +124,30 @@ public class MainWindow {
         }
 
 //        construct the button panel
-        spectatorBox = new JComboBox<String>();
+        spectatorBox = new JComboBox<>();
         spectatorBox.addItem("          ");
-        buttonPanel = new JPanel();
+        JPanel buttonPanel = new JPanel();
         buttonPanel.setSize(900,100);
-        signInButton = new JButton("Sign In");
+        JButton signInButton = new JButton("Sign In");
         signInButton.setFont(new Font("Goudy Old Style", Font.ITALIC, 35));
         signInButton.setSize(200,90);
-        signInButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                signIn();
-            }
-        });
-        lotteryButton = new JButton("Lottery");
+        signInButton.addActionListener(e -> signIn());
+        JButton lotteryButton = new JButton("Lottery");
         lotteryButton.setFont(new Font("Goudy Old Style", Font.ITALIC, 35));
         lotteryButton.setSize(200,90);
-        lotteryButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                lottery();
-            }
-        });
-        saveButton = new JButton("Save");
+        lotteryButton.addActionListener(e -> lottery());
+        JButton saveButton = new JButton("Save");
         saveButton.setFont(new Font("Goudy Old Style", Font.ITALIC, 35));
         saveButton.setSize(200,90);
-        saveButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                save();
-            }
-        });
-        loadButton = new JButton("Load");
+        saveButton.addActionListener(e -> save());
+        JButton loadButton = new JButton("Load");
         loadButton.setFont(new Font("Goudy Old Style", Font.ITALIC, 35));
         loadButton.setSize(200,90);
-        loadButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                load();
-            }
-        });
-        exitButton = new JButton("Exit");
+        loadButton.addActionListener(e -> load());
+        JButton exitButton = new JButton("Exit");
         exitButton.setFont(new Font("Goudy Old Style", Font.ITALIC, 35));
         exitButton.setSize(200,90);
-        exitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                exit();
-            }
-        });
+        exitButton.addActionListener(e -> exit());
         buttonPanel.add(spectatorBox);
         buttonPanel.add(signInButton);
         buttonPanel.add(lotteryButton);
@@ -200,7 +159,7 @@ public class MainWindow {
         myFrame = new JFrame("CSSA Event");
         myFrame.setSize(900,800);
 //        myFrame.setLayout(new BoxLayout(, BoxLayout.PAGE_AXIS));
-        wholePanel = new JPanel();
+        JPanel wholePanel = new JPanel();
         wholePanel.setLayout(new BoxLayout(wholePanel, BoxLayout.PAGE_AXIS));
         wholePanel.add(titlePanel);
         wholePanel.add(tablePanel);
