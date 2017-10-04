@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Random;
 
 public class MidAutumnEventImpl extends CssaEvent {
+    private static final int SPECTATOR = -1;
     private List<Participant> participants;
     private List<ParticipantGroup> participantGroups;
 
@@ -112,8 +113,12 @@ public class MidAutumnEventImpl extends CssaEvent {
 
             while( participantGroups.get(groupAssignment).atCapacity() ) {
                 if (numAttempts == numParticipants * numParticipants) {
-                    groupAssignment = -1;
-                    break;
+                    groupAssignment = findNotFilledTable();
+                    
+                    if (groupAssignment == SPECTATOR) {
+                        participant.setGroupNumber(SPECTATOR);
+                        return SPECTATOR;
+                    }
                 }
                 groupAssignment = r.nextInt(numGroups);
                 numAttempts++;
