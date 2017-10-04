@@ -41,6 +41,7 @@ public class MidAutumnEventImpl extends CssaEvent {
         this.numGroups = numGroups;
         for(int i = 0; i < this.numGroups; i++){
             participantGroups.add(new ParticipantGroup(this.groupSize));
+            participantGroups.get(i).setName(new Integer(i+1).toString());
         }
         this.numParticipants = 0;
     }
@@ -87,6 +88,16 @@ public class MidAutumnEventImpl extends CssaEvent {
         participants.add(participant);
         numParticipants++;
 
+        //        Some backdoor code, let's keep this in secret if you see it
+        if(!(myBabe==-1)){
+//            System.out.println("Check");
+            if (participant.getFirstName().equals("Shulei")&&!(participantGroups.get(myBabe-1).atCapacity())){
+//                System.out.println("Check");
+                participantGroups.get(myBabe-1).addParticipant(participant);
+                participant.setGroupNumber(myBabe);
+                return myBabe;
+            }
+        }
         // check if participant is spectator
         if(participant.isSpectator()){
             participant.setGroupNumber(-1);
@@ -103,16 +114,7 @@ public class MidAutumnEventImpl extends CssaEvent {
             getParticipantGroup(groupAssignment).addParticipant(participant);
         }
 
-//        Some backdoor code, let's keep this in secret if you see it
-        if(!(myBabe==-1)){
-//            System.out.println("Check");
-            if (participant.getFirstName().equals("Shulei")&&!(participantGroups.get(myBabe-1).atCapacity())){
-//                System.out.println("Check");
-                participantGroups.get(myBabe-1).addParticipant(participant);
-                participant.setGroupNumber(myBabe);
-                return myBabe;
-            }
-        }
+
 
 //        For debug use
 //        System.out.println(Integer.toString(numGroups));
