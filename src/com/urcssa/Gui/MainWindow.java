@@ -63,7 +63,7 @@ private final MidAutumnEventManagerImpl manager;
         }
 
         signInWindow.setInformationArea(Integer.toString(groupNum));
-        detailList.get(groupNum-1).addItem(participant.getFirstName() + " " + participant.getLastName());
+        detailList.get(groupNum).addItem(participant.getFirstName() + " " + participant.getLastName());
     }
 
     public void update(){
