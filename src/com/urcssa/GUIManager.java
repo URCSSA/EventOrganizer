@@ -28,7 +28,7 @@ public class GUIManager {
 
     public void startMidAutumnMainWindow(){
         numGroups = settingsWindow.getNumOfGroup();
-        groupSize = settingsWindow.getGroupCapacity();
+        groupSize = settingsWindow.getGroupSize();
         MidAutumnEventManagerImpl manager = new MidAutumnEventManagerImpl().startEvent(numGroups, groupSize);
 
         settingsWindow.setInvisible();

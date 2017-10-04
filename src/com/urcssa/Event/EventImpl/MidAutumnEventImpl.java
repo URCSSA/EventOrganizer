@@ -34,7 +34,7 @@ public class MidAutumnEventImpl extends CssaEvent {
     private int numGroups; //there can only be so many tables
     private int numParticipants; //numParticipants instead of capacity because there is no technical limit on num of people
 
-    public MidAutumnEventImpl(int groupSize, int numGroups){
+    public MidAutumnEventImpl(int numGroups, int groupSize){
         this.participants = new ArrayList<Participant>();
         this.participantGroups = new ArrayList<ParticipantGroup>();
         this.groupSize = groupSize;

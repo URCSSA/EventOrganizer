@@ -16,25 +16,25 @@ public class SettingsWindow {
     private JFrame myFrame;
     private JPanel myPanel;
     private JLabel numOfGroupLabel;
-    private JLabel groupCapacityLabel;
+    private JLabel groupSizeLabel;
     private JTextField numOfGroupField;
-    private JTextField groupCapacityField;
+    private JTextField groupSizeField;
     private JButton submitButton;
 
 //    Data Stuff
-    private GUIManager manager;
+    private GUIManager guiManager;
     private int numOfGroups;
-    private int groupCapacity;
+    private int groupSize;
 
     public SettingsWindow(GUIManager guiManager){
-        manager = guiManager;
+        this.guiManager = guiManager;
         myFrame = new JFrame("Please enter the parameters");
         myPanel = new JPanel();
         myPanel.setLayout(new BoxLayout(myPanel, BoxLayout.PAGE_AXIS));
         numOfGroupLabel = new JLabel("Number of Groups: ");
         numOfGroupField = new JTextField(15);
-        groupCapacityLabel = new JLabel("Capacity for each group: ");
-        groupCapacityField = new JTextField(15);
+        groupSizeLabel = new JLabel("Size of each group: ");
+        groupSizeField = new JTextField(15);
         submitButton = new JButton("Submit");
         submitButton.addActionListener(new ActionListener() {
             @Override
@@ -44,8 +44,8 @@ public class SettingsWindow {
         });
         myPanel.add(numOfGroupLabel);
         myPanel.add(numOfGroupField);
-        myPanel.add(groupCapacityLabel);
-        myPanel.add(groupCapacityField);
+        myPanel.add(groupSizeLabel);
+        myPanel.add(groupSizeField);
         myPanel.add(submitButton);
         myFrame.add(myPanel);
 
@@ -57,14 +57,14 @@ public class SettingsWindow {
         return numOfGroups;
     }
 
-    public int getGroupCapacity(){
-        return groupCapacity;
+    public int getGroupSize(){
+        return groupSize;
     }
 
     public void submit(){
         numOfGroups = Integer.parseInt(numOfGroupField.getText());
-        groupCapacity = Integer.parseInt(groupCapacityField.getText());
-        manager.startMidAutumnMainWindow();
+        groupSize = Integer.parseInt(groupSizeField.getText());
+        guiManager.startMidAutumnMainWindow();
     }
 
     public void setInvisible(){

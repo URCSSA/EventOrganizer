@@ -77,12 +77,20 @@ private final MidAutumnEventManagerImpl manager;
 
     //    TODO implement save event function
     private void save(){
-
+        try {
+            manager.saveEvent();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     //    TODO implement load event function
-    private void load(){
-
+    private void load() {
+        try {
+            manager.loadEvent();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

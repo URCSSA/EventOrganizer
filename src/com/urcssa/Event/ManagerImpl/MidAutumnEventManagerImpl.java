@@ -39,13 +39,13 @@ public class MidAutumnEventManagerImpl extends EventManager {
      * @param numGroups
      * @return
      */
-    public MidAutumnEventManagerImpl startEvent(int groupSize, int numGroups) {
-        event = new MidAutumnEventImpl(groupSize, numGroups);
+    public MidAutumnEventManagerImpl startEvent(int numGroups, int groupSize) {
+        event = new MidAutumnEventImpl(numGroups, groupSize);
 
         return this;
     }
 
-    public void saveEvent(CssaEvent event) throws Exception {
+    public void saveEvent() throws Exception {
         FileOutputStream saveEvent = new FileOutputStream("SaveEvent.sav");
         ObjectOutputStream save = new ObjectOutputStream(saveEvent);
 //        save.writeObject();
