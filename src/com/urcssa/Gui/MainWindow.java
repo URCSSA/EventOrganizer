@@ -78,7 +78,7 @@ public class MainWindow {
     //    TODO implement save event function
     private void save(){
         try {
-            manager.saveEvent();
+            manager.saveEvent(new String());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -87,7 +87,7 @@ public class MainWindow {
     //    TODO implement load event function
     private void load() {
         try {
-            manager.loadEvent();
+            manager.loadEvent(new String());
         } catch (Exception e) {
             e.printStackTrace();
         }

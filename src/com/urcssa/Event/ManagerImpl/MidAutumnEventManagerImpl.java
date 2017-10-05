@@ -45,7 +45,7 @@ public class MidAutumnEventManagerImpl extends EventManager {
         return this;
     }
 
-    public void saveEvent() throws Exception {
+    public void saveEvent(String outFileName) throws Exception {
         FileOutputStream saveEvent = new FileOutputStream("SaveEvent.sav");
         ObjectOutputStream save = new ObjectOutputStream(saveEvent);
 //        save.writeObject();
@@ -54,7 +54,7 @@ public class MidAutumnEventManagerImpl extends EventManager {
 
     }
 
-    public CssaEvent loadEvent() throws Exception {
+    public CssaEvent loadEvent(String inFileName) throws Exception {
         FileInputStream saveEvent = new FileInputStream("SaveEvent.sav");
         ObjectInputStream save = new ObjectInputStream(saveEvent);
 
