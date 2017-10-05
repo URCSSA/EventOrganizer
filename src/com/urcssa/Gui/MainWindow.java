@@ -24,7 +24,7 @@ public class MainWindow {
     private SignInWindow signInWindow;
 
     //    Dara part
-private final MidAutumnEventManagerImpl manager;
+    private final MidAutumnEventManagerImpl manager;
     private final int groupSize;
 
 //    private MidAutumnEventImpl midAutumnCssaEvent;
@@ -34,7 +34,7 @@ private final MidAutumnEventManagerImpl manager;
     }
 
     private void lottery(){
-        LotteryWindow lotteryWindow = new LotteryWindow(this);
+        LotteryWindow lotteryWindow = new LotteryWindow(this, manager);
     }
 
     private void exit(){

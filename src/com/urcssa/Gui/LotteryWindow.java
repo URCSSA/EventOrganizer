@@ -35,9 +35,10 @@ public class LotteryWindow {
     private JButton stopButton;
     private JButton exitButton;
 
-    public LotteryWindow(MainWindow theMainWindow){
+    public LotteryWindow(MainWindow mainWindow, MidAutumnEventManagerImpl manager){
 //        Data
-        mainWindow = theMainWindow;
+        this.mainWindow = mainWindow;
+        this.manager = manager;
         maxNumber = manager.numberOfParticipants();
 
         Timer t = new Timer(10, new ActionListener() {
