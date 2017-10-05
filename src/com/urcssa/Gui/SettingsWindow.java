@@ -6,7 +6,7 @@ package com.urcssa.Gui;
  * @author (Nicholas Wan)
  * @version (09/30/2017)
  */
-import com.urcssa.GUIManager;
+import com.urcssa.EventOrganizer;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,12 +22,12 @@ public class SettingsWindow {
     private JButton submitButton;
 
 //    Data Stuff
-    private GUIManager guiManager;
+    private EventOrganizer eventOrganizer;
     private int numOfGroups;
     private int groupSize;
 
-    public SettingsWindow(GUIManager guiManager){
-        this.guiManager = guiManager;
+    public SettingsWindow(EventOrganizer eventOrganizer){
+        this.eventOrganizer = eventOrganizer;
         myFrame = new JFrame("Please enter the parameters");
         myPanel = new JPanel();
         myPanel.setLayout(new BoxLayout(myPanel, BoxLayout.PAGE_AXIS));
@@ -64,7 +64,7 @@ public class SettingsWindow {
     public void submit(){
         numOfGroups = Integer.parseInt(numOfGroupField.getText());
         groupSize = Integer.parseInt(groupSizeField.getText());
-        guiManager.startMidAutumnMainWindow();
+        eventOrganizer.startMidAutumnMainWindow();
     }
 
     public void setInvisible(){

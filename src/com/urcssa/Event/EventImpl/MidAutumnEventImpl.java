@@ -103,8 +103,7 @@ public class MidAutumnEventImpl extends CssaEvent {
         if(participant.isSpectator()){
             participant.setGroupNumber(-1);
             return -1;
-        }
-        else {
+        } else {
             //assign participant to a random table subject to capacity
             Random r = new Random();
             int groupAssignment = r.nextInt(numGroups);

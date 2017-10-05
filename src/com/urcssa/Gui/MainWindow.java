@@ -23,7 +23,7 @@ public class MainWindow {
     private final ArrayList<JComboBox<String>> detailList;
     private SignInWindow signInWindow;
 
-    //    Dara part
+    //    Data part
     private final MidAutumnEventManagerImpl manager;
     private final int groupSize;
 

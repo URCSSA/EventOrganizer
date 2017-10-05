@@ -7,7 +7,7 @@ package com.urcssa.Gui;
  * @version (09/28/2017)
  */
 
-import com.urcssa.GUIManager;
+import com.urcssa.EventOrganizer;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -22,10 +22,10 @@ public class WelcomeWindow {
     private JPanel myPanel;
     private JButton midAutumnButton;
     private JButton springFestivalButton;
-    private GUIManager manager;
+    private EventOrganizer manager;
 
-    public WelcomeWindow(GUIManager guiManager){
-        manager = guiManager;
+    public WelcomeWindow(EventOrganizer eventOrganizer){
+        manager = eventOrganizer;
 
         myFrame = new JFrame("Please choose an event");
 //        construct buttons
