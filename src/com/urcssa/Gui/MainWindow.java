@@ -42,6 +42,7 @@ public class MainWindow {
 
     private void exit(){
         myFrame.setVisible(false);
+        System.exit(0);
     }
 
     /**
