@@ -12,7 +12,10 @@ import com.urcssa.Event.ManagerImpl.MidAutumnEventManagerImpl;
 import com.urcssa.People.Participant;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.filechooser.FileSystemView;
 import java.awt.*;
+import java.io.File;
 import java.util.ArrayList;
 
 public class MainWindow {
@@ -78,7 +81,18 @@ public class MainWindow {
     //    TODO implement save event function
     private void save(){
         try {
-            manager.saveEvent(new String());
+            JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+            jfc.setDialogTitle("Save this event as ");
+            jfc.setAcceptAllFileFilterUsed(false);
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("CSSA Event", "cssa");
+            jfc.addChoosableFileFilter(filter);
+            int returnValue = jfc.showSaveDialog(null);
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = jfc.getSelectedFile();
+//                System.out.println(selectedFile.getAbsolutePath());
+                manager.saveEvent(selectedFile.getAbsolutePath());
+            }
+//            manager.saveEvent(selectedFile.getAbsolutePath());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -87,7 +101,17 @@ public class MainWindow {
     //    TODO implement load event function
     private void load() {
         try {
-            manager.loadEvent(new String());
+            JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+            jfc.setDialogTitle("Load CSSA event ");
+            jfc.setAcceptAllFileFilterUsed(false);
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("CSSA Event", "cssa");
+            jfc.addChoosableFileFilter(filter);
+            int returnValue = jfc.showOpenDialog(null);
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = jfc.getSelectedFile();
+//                System.out.println(selectedFile.getAbsolutePath());
+                manager.loadEvent(selectedFile.getAbsolutePath());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

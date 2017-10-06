@@ -63,7 +63,7 @@ public class SignInWindow{
 //        construct comboBox and buttons
         Integer[] classArray = new Integer[]{2021, 2020, 2019, 2018};
         classBox = new JComboBox<>(classArray);
-        isSpectatorBox = new JCheckBox("I will participate games.");
+        isSpectatorBox = new JCheckBox("I will participate in games.");
         isSpectatorBox.setFont(new Font("", Font.ITALIC, 20));
         JButton submitButton = new JButton("Submit");
         submitButton.setActionCommand("Submit");
