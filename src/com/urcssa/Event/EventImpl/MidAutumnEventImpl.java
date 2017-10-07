@@ -15,6 +15,12 @@ import java.util.List;
 import java.util.Random;
 
 public class MidAutumnEventImpl extends CssaEvent {
+
+    public static final int NUM_GROUP_POS = 0;
+    public static final int GROUP_SIZE_POS = 1;
+    public static final int NUM_PARTICIPANT_POS = 2;
+
+
     private static final int SPECTATOR = -1;
     private List<Participant> participants;
     private List<ParticipantGroup> participantGroups;
@@ -145,6 +151,19 @@ public class MidAutumnEventImpl extends CssaEvent {
         return participantGroup;
     }
 
+    /**
+     * Provides information about group size, numGroups, and numParticipants
+     * @return
+     */
+    @Override
+    public String toString() {
+        return new StringBuffer()
+                .append(groupSize).append(",")
+                .append(numGroups).append(",")
+                .append(numParticipants)
+                .toString();
+    }
+
     private int findNotFilledTable() {
         for (int i = 0; i < numGroups; i++) {
             if (!participantGroups.get(i).atCapacity()) {
@@ -152,5 +171,9 @@ public class MidAutumnEventImpl extends CssaEvent {
             }
         }
         return -1;
+    }
+
+    public List<Participant> getAllParticipant() {
+        return participants;
     }
 }

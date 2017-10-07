@@ -6,16 +6,18 @@ import com.urcssa.Event.EventImpl.MidAutumnEventImpl;
 import com.urcssa.Event.EventManager;
 import com.urcssa.People.Participant;
 import com.urcssa.People.ParticipantGroup;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+
+import java.io.*;
+import java.util.Date;
+import java.util.Scanner;
 
 
 public class MidAutumnEventManagerImpl extends EventManager {
+    private static String metadataFileName = "metadata.cssa";
+    private String csvFilePath;
+    private String metatdatafilepath;
 
-
-    public CssaEvent startEvent() {
+    /*    public CssaEvent startEvent() {
         if (event instanceof MidAutumnEventImpl) {
 //            log.info("Starting midAutumn event");
             System.out.println("Starting midAutumn event");
@@ -31,7 +33,7 @@ public class MidAutumnEventManagerImpl extends EventManager {
 
         }
         return null;
-    }
+    }*/
 
     /**
      * Initializes a MidAutumnEventManager using input given
@@ -45,31 +47,146 @@ public class MidAutumnEventManagerImpl extends EventManager {
         return this;
     }
 
-    public void saveEvent(String outFileName) throws Exception {
-        FileOutputStream saveEvent = new FileOutputStream("SaveEvent.sav");
-        ObjectOutputStream save = new ObjectOutputStream(saveEvent);
-//        save.writeObject();
-//        save.wtireObject(group);
-        save.close();
+    public void updateEventData(Participant participant) throws Exception {
+        if (csvFilePath != null) {
+            File outFile = new File (csvFilePath);
+            try (PrintWriter pw = new PrintWriter(new FileOutputStream(outFile, true))) {
+                pw.println(participant.toString());
+            } catch (FileNotFoundException e) {
+                String message = "FileNotFoundException caught when writing data";
+                throw new Exception(message);
+            }
+        }
+    }
+
+    /**
+     * Takes an absolute path to a file or directory. Checks
+     * if the path is to a file that it has .cssa extension.
+     * Creates a new metadata.cssa file if path is to directory.
+     * @param outFilePath
+     * @throws Exception
+     */
+    public void saveEvent(String outFilePath) throws Exception {
+
+        File outFile = new File(outFilePath);
+
+        if (outFile.isDirectory()) {
+            outFile = new File(outFilePath + "/" + metadataFileName);
+        }
+        else {
+            if (!outFile.exists())
+                outFile.createNewFile();
+            if (!outFilePath.endsWith(".cssa")) {
+                outFilePath = outFilePath + ".cssa";
+                outFile = new File(outFilePath);
+            }
+        }
+
+        metatdatafilepath = outFile.getAbsolutePath();
+
+        //here, outFile refers to a file named metadata.cssa
+        writeMetaData(outFile);
+        writeData(outFile);
+    }
+
+    /**
+     * Writes metadata to file. Assumes the file is empty/does not contain meaningful information.
+     * Overwrites the file.
+     * @param file
+     * @throws Exception
+     */
+    private void writeMetaData(File file) throws Exception {
+        try (PrintWriter pw = new PrintWriter(file)) {
+            pw.println(new Date (System.currentTimeMillis()).toString()); //Start with date
+            pw.println(getEvent().toString());
+            csvFilePath = file.getParentFile().getAbsolutePath() + "/Participants.csv";
+            pw.println(csvFilePath);
+        } catch (FileNotFoundException e) {
+            String message = "FileNotFoundException caught when writing metadata";
+            throw new Exception(message);
+        }
 
     }
 
-    public CssaEvent loadEvent(String inFileName) throws Exception {
-        FileInputStream saveEvent = new FileInputStream("SaveEvent.sav");
-        ObjectInputStream save = new ObjectInputStream(saveEvent);
+    private void writeData(File file) throws Exception {
+        File outFile = new File (file.getParentFile().getAbsolutePath() + "/Participants.csv");
+//        try (PrintWriter pw = new PrintWriter(new FileOutputStream(outFile, true))) {
+        try (PrintWriter pw = new PrintWriter(new FileOutputStream(outFile))) {
+                getEvent().getAllParticipant().forEach(participant -> {
+                pw.println(participant.toString());
+            });
+        } catch (FileNotFoundException e) {
+            String message = "FileNotFoundException caught when writing data";
+            throw new Exception(message);
+        }
 
-        save.close();
+    }
 
-        System.out.println("\tparticipant: " );
+    public CssaEvent loadEvent(String inFilePath) throws Exception {
+        File inFile = new File(inFilePath);
 
-//        catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        }
-        return null;
+        if (!inFile.getName().endsWith(".cssa")) {
+            String message = "Wrong type of file is given";
+            throw new Exception(message);
+        }
+        MidAutumnEventImpl event = null;
+        event = loadMetaData(inFile);
+        event = loadData(inFile, event);
+        return event;
+    }
+
+    private MidAutumnEventImpl loadMetaData(File inFile) throws Exception {
+        try (Scanner s = new Scanner(inFile)) {
+            if (s.hasNextLine()) { //skip the line of date
+                s.nextLine();
+            }
+            String[] tokens = s.nextLine().split(",");
+            MidAutumnEventImpl event = new MidAutumnEventImpl(
+                    Integer.parseInt(tokens[MidAutumnEventImpl.NUM_GROUP_POS])  ,
+                    Integer.parseInt(tokens[MidAutumnEventImpl.GROUP_SIZE_POS]));
+
+            csvFilePath = s.nextLine();
+            return event;
+
+        } catch (FileNotFoundException e) {
+            String message = "FileNotFoundException caught when reading metadata";
+            throw new Exception(message);
+        }
+    }
+
+    private MidAutumnEventImpl loadData(File inFile, MidAutumnEventImpl event) throws Exception {
+        try (Scanner s = new Scanner(inFile)) {
+            if (s.hasNextLine()) { //skip the line of date
+                s.nextLine();
+            }
+            if (s.hasNextLine()) { //skip the line of event data
+                s.nextLine();
+            }
+
+
+            String dataPath = s.nextLine();
+
+            try (Scanner csvScan = new Scanner(new File(dataPath))) {
+                while (csvScan.hasNextLine()) {
+                    String[] tokens = csvScan.nextLine().split(",");
+                    Participant participant = new Participant();
+                    participant.setFirstName(           tokens[Participant.FIRST_NAME_POS]);
+                    participant.setLastName(            tokens[Participant.LAST_NAME_POS]);
+                    participant.setGradYear(            Integer.parseInt(tokens[Participant.GRAD_YEAR_POS].trim()));
+                    participant.setSpectator(           Boolean.parseBoolean(tokens[Participant.IS_SPECTATOR_POS].trim()));
+                    participant.setGroupNumber(         Integer.parseInt(tokens[Participant.GROUP_NUM_POS].trim()));
+                    participant.setParticipantNumber(   Integer.parseInt(tokens[Participant.PARTICIPANT_NUM_POS].trim()));
+//                    participant.setRemark(              tokens[Participant.REMARK_POS].trim());
+                    event.addParticipant(participant);
+                }
+                return event;
+            }
+
+        } catch (FileNotFoundException e) {
+            String message = "FileNotFoundException caught when reading data";
+            throw new Exception(message);
+        }
+
     }
 
     public int getGroupSize() {
@@ -126,7 +243,11 @@ public class MidAutumnEventManagerImpl extends EventManager {
         //done by the seating method.
 
         seatParticipant(participant);
-
+        try {
+            updateEventData(participant);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return participant;
     }
 
