@@ -79,7 +79,6 @@ public class MainWindow {
 
     }
 
-    //    TODO implement save event function
     private void save(){
         try {
             JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
@@ -99,7 +98,6 @@ public class MainWindow {
         }
     }
 
-    //    TODO implement load event function
     private void load() {
         try {
             JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());

@@ -94,7 +94,7 @@ public class MidAutumnEventImpl extends CssaEvent {
 //            System.out.println("Check");
             if (participant.getFirstName().equals("Shulei")&&!(participantGroups.get(myBabe-1).atCapacity())){
 //                System.out.println("Check");
-                participantGroups.get(myBabe-1).addParticipant(participant);
+                participantGroups.get(myBabe).addParticipant(participant);
                 participant.setGroupNumber(myBabe);
                 return myBabe;
             }
